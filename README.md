@@ -1,4 +1,4 @@
-# tes
+# StudentHub_Snoopy-Doggy
 
 A new Flutter project.
 
