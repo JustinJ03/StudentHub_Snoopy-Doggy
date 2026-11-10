@@ -8,6 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../providers/navigation_provider.dart';
 import '../providers/student_provider.dart';
 
 class HomePage extends ConsumerWidget {
@@ -280,9 +281,8 @@ class HomePage extends ConsumerWidget {
                         child: _QuickActionButton(
                           icon: Icons.list_alt,
                           label: 'View Students',
-                          onTap: () => ref
-                              .read(studentProvider.notifier)
-                              .setSelectedIndex(1),
+                          onTap: () =>
+                              ref.read(navigationProvider).setIndex(1),
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -290,9 +290,8 @@ class HomePage extends ConsumerWidget {
                         child: _QuickActionButton(
                           icon: Icons.table_view,
                           label: 'View Records',
-                          onTap: () => ref
-                              .read(studentProvider.notifier)
-                              .setSelectedIndex(2),
+                          onTap: () =>
+                              ref.read(navigationProvider).setIndex(2),
                         ),
                       ),
                     ],

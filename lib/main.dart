@@ -8,7 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'providers/student_provider.dart';
+import 'providers/navigation_provider.dart';
 import 'pages/home.dart';
 import 'pages/stud_list.dart';
 import 'pages/stud_record.dart';
@@ -55,14 +55,16 @@ class MainShell extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final provider = ref.watch(studentProvider);
+    final currentIndex = ref.watch(
+      navigationProvider.select((nav) => nav.currentIndex),
+    );
 
     // Pages corresponding to each bottom-nav index
-    final List<Widget> pages = [
-      const HomePage(), // index 0
-      const StudentListPage(), // index 1
-      const StudentRecordPage(), // index 2
-      const AboutProfilePage(), // index 3
+    const List<Widget> pages = [
+      HomePage(), // index 0
+      StudentListPage(), // index 1
+      StudentRecordPage(), // index 2
+      AboutPage(), // index 3
     ];
 
     return Scaffold(
@@ -80,13 +82,13 @@ class MainShell extends ConsumerWidget {
       drawer: const AppNavigationDrawer(),
 
       // --- Body ---
-      body: IndexedStack(index: provider.selectedIndex, children: pages),
+      body: IndexedStack(index: currentIndex, children: pages),
 
       // --- Bottom Navigation Bar (Requirement 7) ---
       bottomNavigationBar: NavigationBar(
-        selectedIndex: provider.selectedIndex,
+        selectedIndex: currentIndex,
         onDestinationSelected: (index) {
-          ref.read(studentProvider.notifier).setSelectedIndex(index);
+          ref.read(navigationProvider.notifier).setIndex(index);
         },
         destinations: const [
           NavigationDestination(

@@ -1,8 +1,8 @@
 // ============================================================================
 // File: student_provider.dart
 // Description: Shared state management using Riverpod.
-// Manages the student data list, selected navigation index,
-// and any shared application state.
+// Manages the student data list and student-related shared state.
+// (Navigation state lives in navigation_provider.dart.)
 // Requirement 9: Shared State Management (Riverpod)
 // ============================================================================
 
@@ -17,18 +17,6 @@ final studentProvider = ChangeNotifierProvider<StudentNotifier>(
 );
 
 class StudentNotifier extends ChangeNotifier {
-  // -------------------------------------------------------------------------
-  // Navigation State
-  // -------------------------------------------------------------------------
-  int _selectedIndex = 0;
-
-  int get selectedIndex => _selectedIndex;
-
-  void setSelectedIndex(int index) {
-    _selectedIndex = index;
-    notifyListeners();
-  }
-
   // -------------------------------------------------------------------------
   // Student Data (Sample Data — 10+ records)
   // -------------------------------------------------------------------------
