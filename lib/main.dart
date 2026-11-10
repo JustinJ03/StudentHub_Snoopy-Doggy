@@ -12,7 +12,7 @@ import 'providers/student_provider.dart';
 import 'pages/home.dart';
 import 'pages/stud_list.dart';
 import 'pages/stud_record.dart';
-import 'pages/about-profile.dart';
+import 'pages/about_profile.dart';
 import 'navigation/navigation.dart';
 
 void main() {

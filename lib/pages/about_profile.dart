@@ -1,5 +1,5 @@
 // ============================================================================
-// File: about-profile.dart
+// File: about_profile.dart
 // Description: Profile / About Page — displays application or developer
 //              information with an attractive layered interface.
 //

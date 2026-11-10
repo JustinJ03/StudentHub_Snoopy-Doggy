@@ -1,8 +1,8 @@
-/// ============================================================================
-/// File: student.dart
-/// Description: Student data model used across the application.
-/// This model defines the Student class with all relevant fields.
-/// ============================================================================
+// ============================================================================
+// File: student.dart
+// Description: Student data model used across the application.
+// This model defines the Student class with all relevant fields.
+// ============================================================================
 
 class Student {
   final String name;
