@@ -4,104 +4,22 @@
 //              AND organises content by programme using TabBar/TabBarView.
 //
 // REQUIREMENT 4: Student Records Page (DataTable)
-//   - Display student records using the DataTable widget.
-//   - The table must contain at least FOUR columns
-//     (e.g., Name, Matric No, Programme, CGPA).
-//   - Include at least TEN sample student records (already in provider).
-//   - Implement ascending/descending sorting for at least TWO columns.
-//   - Display a sorting indicator to show current sorting direction.
+//   - DataTable with four columns: Name, Matric No, Programme, CGPA.
+//   - Ten sample records (hardcoded mock data in studentProvider).
+//   - Ascending/descending sorting on Name, Matric No and CGPA,
+//     with the built-in sort arrow as the direction indicator.
 //
 // REQUIREMENT 5: Category / Programme Page (Tabs)
-//   - Implement DefaultTabController, TabBar, and TabBarView.
-//   - Organise student info into different categories or academic programmes.
-//   - Each tab must display its corresponding content.
-//
-// INSTRUCTIONS FOR DEVELOPER:
-//   1. Use ConsumerStatefulWidget (Riverpod) to manage local sort state
-//      while accessing global student data from the provider.
-//   2. Use DefaultTabController to wrap the page content.
-//   3. Create a TabBar with tabs for each programme
-//      (e.g., "All", "Software Engineering", "Data Engineering", etc.).
-//      Access programme list from: notifier.programmes
-//   4. In each TabBarView child:
-//       - Filter students by programme (or show all).
-//       - Display a DataTable with columns:
-//           • Name
-//           • Matric Number
-//           • Programme
-//           • CGPA
-//       - Implement onSort for at least 2 columns (Name, CGPA).
-//       - Use DataColumn(label: ..., onSort: ...) with sortAscending.
-//
-// RIVERPOD USAGE:
-//   - READ data:    final notifier = ref.watch(studentProvider);
-//   - MUTATE state: ref.read(studentProvider.notifier).someMethod();
-//
-// EXAMPLE SNIPPET — DataTable with sorting:
-//   DataTable(
-//     sortColumnIndex: _sortColumnIndex,
-//     sortAscending: _sortAscending,
-//     columns: [
-//       DataColumn(
-//         label: const Text('Name'),
-//         onSort: (columnIndex, ascending) {
-//           setState(() {
-//             _sortColumnIndex = columnIndex;
-//             _sortAscending = ascending;
-//             // Sort the list
-//           });
-//         },
-//       ),
-//       const DataColumn(label: Text('Matric No')),
-//       const DataColumn(label: Text('Programme')),
-//       DataColumn(
-//         label: const Text('CGPA'),
-//         numeric: true,
-//         onSort: (columnIndex, ascending) { ... },
-//       ),
-//     ],
-//     rows: students.map((s) => DataRow(cells: [
-//       DataCell(Text(s.name)),
-//       DataCell(Text(s.matricNumber)),
-//       DataCell(Text(s.programme)),
-//       DataCell(Text(s.cgpa.toStringAsFixed(2))),
-//     ])).toList(),
-//   )
-//
-// EXAMPLE SNIPPET — TabBar:
-//   DefaultTabController(
-//     length: programmes.length + 1, // +1 for "All" tab
-//     child: Column(
-//       children: [
-//         TabBar(
-//           isScrollable: true,
-//           tabs: [
-//             const Tab(text: 'All'),
-//             ...programmes.map((p) => Tab(text: p)),
-//           ],
-//         ),
-//         Expanded(
-//           child: TabBarView(
-//             children: [
-//               _buildDataTable(allStudents),
-//               ...programmes.map((p) =>
-//                 _buildDataTable(notifier.getStudentsByProgramme(p))),
-//             ],
-//           ),
-//         ),
-//       ],
-//     ),
-//   )
+//   - DefaultTabController + TabBar + TabBarView.
+//   - One "All" tab plus one tab per programme, each showing only
+//     that programme's students.
 // ============================================================================
-
-// ignore_for_file: unused_import
-// remove this when your code has been implemented
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../providers/student_provider.dart';
 import '../models/student.dart';
+import '../providers/student_provider.dart';
 
 class StudentRecordPage extends ConsumerStatefulWidget {
   const StudentRecordPage({super.key});
@@ -111,25 +29,93 @@ class StudentRecordPage extends ConsumerStatefulWidget {
 }
 
 class _StudentRecordPageState extends ConsumerState<StudentRecordPage> {
-  // TODO: Add sort state variables
-  // int _sortColumnIndex = 0;
-  // bool _sortAscending = true;
+  // Sort state is shared by every tab, so switching tabs keeps the order.
+  int _sortColumnIndex = 0;
+  bool _sortAscending = true;
+
+  void _onSort(int columnIndex, bool ascending) {
+    setState(() {
+      _sortColumnIndex = columnIndex;
+      _sortAscending = ascending;
+    });
+  }
+
+  List<Student> _sorted(List<Student> students) {
+    final sorted = [...students];
+    sorted.sort((a, b) {
+      final result = switch (_sortColumnIndex) {
+        0 => a.name.compareTo(b.name),
+        1 => a.matricNumber.compareTo(b.matricNumber),
+        3 => a.cgpa.compareTo(b.cgpa),
+        _ => 0,
+      };
+      return _sortAscending ? result : -result;
+    });
+    return sorted;
+  }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Implement the Student Records Page with DataTable and TabBar
-    // Access students: final notifier = ref.watch(studentProvider);
+    final notifier = ref.watch(studentProvider);
+    final programmes = notifier.programmes;
 
-    return const Center(
-      child: Text(
-        'Student Records Page\n(To be implemented)\n\n'
-        'Requirements:\n'
-        '• DataTable with 4+ columns\n'
-        '• 10 sample records\n'
-        '• Sorting on 2+ columns\n'
-        '• TabBar by programme',
-        textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 16, color: Colors.grey),
+    return DefaultTabController(
+      length: programmes.length + 1, // +1 for the "All" tab
+      child: Column(
+        children: [
+          TabBar(
+            isScrollable: true,
+            tabAlignment: TabAlignment.start,
+            tabs: [
+              const Tab(text: 'All'),
+              for (final p in programmes) Tab(text: p),
+            ],
+          ),
+          Expanded(
+            child: TabBarView(
+              children: [
+                _buildTable(notifier.students),
+                for (final p in programmes)
+                  _buildTable(notifier.getStudentsByProgramme(p)),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTable(List<Student> students) {
+    // Vertical + horizontal scroll so the table fits on narrow phones.
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: DataTable(
+          sortColumnIndex: _sortColumnIndex,
+          sortAscending: _sortAscending,
+          columns: [
+            DataColumn(label: const Text('Name'), onSort: _onSort),
+            DataColumn(label: const Text('Matric No'), onSort: _onSort),
+            const DataColumn(label: Text('Programme')),
+            DataColumn(
+              label: const Text('CGPA'),
+              numeric: true,
+              onSort: _onSort,
+            ),
+          ],
+          rows: [
+            for (final s in _sorted(students))
+              DataRow(
+                cells: [
+                  DataCell(Text(s.name)),
+                  DataCell(Text(s.matricNumber)),
+                  DataCell(Text(s.programme)),
+                  DataCell(Text(s.cgpa.toStringAsFixed(2))),
+                ],
+              ),
+          ],
+        ),
       ),
     );
   }
