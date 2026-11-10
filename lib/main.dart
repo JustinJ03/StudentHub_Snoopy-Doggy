@@ -7,6 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'providers/student_provider.dart';
 import 'pages/home.dart';
 import 'pages/stud_list.dart';
@@ -18,9 +19,7 @@ void main() {
   runApp(
     /// Wrap the entire app with ProviderScope —
     /// the root of all Riverpod providers.
-    const ProviderScope(
-      child: StudentHubApp(),
-    ),
+    const ProviderScope(child: StudentHubApp()),
   );
 }
 
@@ -60,10 +59,10 @@ class MainShell extends ConsumerWidget {
 
     // Pages corresponding to each bottom-nav index
     final List<Widget> pages = [
-      const HomePage(),           // index 0
-      const StudentListPage(),    // index 1
-      const StudentRecordPage(),  // index 2
-      const AboutProfilePage(),   // index 3
+      const HomePage(), // index 0
+      const StudentListPage(), // index 1
+      const StudentRecordPage(), // index 2
+      const AboutProfilePage(), // index 3
     ];
 
     return Scaffold(
@@ -81,10 +80,7 @@ class MainShell extends ConsumerWidget {
       drawer: const AppNavigationDrawer(),
 
       // --- Body ---
-      body: IndexedStack(
-        index: provider.selectedIndex,
-        children: pages,
-      ),
+      body: IndexedStack(index: provider.selectedIndex, children: pages),
 
       // --- Bottom Navigation Bar (Requirement 7) ---
       bottomNavigationBar: NavigationBar(

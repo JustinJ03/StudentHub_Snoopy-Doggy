@@ -8,11 +8,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../models/student.dart';
 
 /// Top-level Riverpod provider — accessible anywhere via ref.watch / ref.read
-final studentProvider =
-    ChangeNotifierProvider<StudentNotifier>((ref) => StudentNotifier());
+final studentProvider = ChangeNotifierProvider<StudentNotifier>(
+  (ref) => StudentNotifier(),
+);
 
 class StudentNotifier extends ChangeNotifier {
   // -------------------------------------------------------------------------

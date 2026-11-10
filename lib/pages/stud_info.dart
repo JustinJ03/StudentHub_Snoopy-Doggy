@@ -50,6 +50,7 @@
 // ============================================================================
 
 import 'package:flutter/material.dart';
+
 import '../models/student.dart';
 
 class StudentInfoPage extends StatelessWidget {
@@ -64,9 +65,7 @@ class StudentInfoPage extends StatelessWidget {
     // Use SelectableText for matricNumber and email.
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(student.name),
-      ),
+      appBar: AppBar(title: Text(student.name)),
       body: const Center(
         child: Text(
           'Student Details Page\n(To be implemented)',

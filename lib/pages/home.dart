@@ -7,6 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../providers/student_provider.dart';
 
 class HomePage extends ConsumerWidget {
@@ -29,10 +30,7 @@ class HomePage extends ConsumerWidget {
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [
-                  colorScheme.primary,
-                  colorScheme.primaryContainer,
-                ],
+                colors: [colorScheme.primary, colorScheme.primaryContainer],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -88,8 +86,11 @@ class HomePage extends ConsumerWidget {
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.waving_hand,
-                          color: Colors.amber.shade700, size: 28),
+                      Icon(
+                        Icons.waving_hand,
+                        color: Colors.amber.shade700,
+                        size: 28,
+                      ),
                       const SizedBox(width: 10),
                       Text(
                         'Welcome!',
@@ -185,8 +186,11 @@ class HomePage extends ConsumerWidget {
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.bar_chart,
-                          color: colorScheme.primary, size: 24),
+                      Icon(
+                        Icons.bar_chart,
+                        color: colorScheme.primary,
+                        size: 24,
+                      ),
                       const SizedBox(width: 8),
                       Text(
                         'Students by Programme',
@@ -198,8 +202,9 @@ class HomePage extends ConsumerWidget {
                   ),
                   const SizedBox(height: 16),
                   ...provider.programmes.map((programme) {
-                    final count =
-                        provider.getStudentsByProgramme(programme).length;
+                    final count = provider
+                        .getStudentsByProgramme(programme)
+                        .length;
                     final fraction = count / provider.totalStudents;
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 12),
@@ -338,17 +343,14 @@ class _SummaryCard extends StatelessWidget {
             const Spacer(),
             Text(
               value,
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: color,
-                  ),
+              style: Theme.of(context).textTheme.headlineSmall
+                  ?.copyWith(fontWeight: FontWeight.bold, color: color),
             ),
             const SizedBox(height: 2),
             Text(
               label,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: color.withValues(alpha: 0.8),
-                  ),
+              style: Theme.of(context).textTheme.bodySmall
+                  ?.copyWith(color: color.withValues(alpha: 0.8)),
             ),
           ],
         ),

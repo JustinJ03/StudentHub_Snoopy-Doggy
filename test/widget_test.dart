@@ -4,11 +4,7 @@ import 'package:student_hub/main.dart';
 
 void main() {
   testWidgets('StudentHub app smoke test', (WidgetTester tester) async {
-    await tester.pumpWidget(
-      const ProviderScope(
-        child: StudentHubApp(),
-      ),
-    );
+    await tester.pumpWidget(const ProviderScope(child: StudentHubApp()));
 
     // Verify the app title is displayed
     expect(find.text('StudentHub'), findsWidgets);
