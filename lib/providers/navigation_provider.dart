@@ -8,13 +8,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final navigationProvider = ChangeNotifierProvider<NavigationProvider>(
-    (ref) => NavigationProvider(),
+  (ref) => NavigationProvider(),
 );
 
 class NavigationProvider extends ChangeNotifier {
   NavigationProvider({int initialIndex = 0})
-      : assert(initialIndex >= 0 && initialIndex < destinationCount),
-        _currentIndex = initialIndex;
+    : assert(initialIndex >= 0 && initialIndex < destinationCount),
+      _currentIndex = initialIndex;
 
   static const int destinationCount = 4;
 

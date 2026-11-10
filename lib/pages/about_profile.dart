@@ -12,10 +12,26 @@ class AboutPage extends StatelessWidget {
 
   static const List<_Member> _members = [
     _Member(name: 'Justin Joel', matric: '104607', role: 'Home Page'),
-    _Member(name: 'Jazzier Joane', matric: '104507', role: 'Student Info & details'),
-    _Member(name: 'Alan Isam', matric: '103166', role: 'Student record & category/programme'),
-    _Member(name: 'Isabella Roselinni', matric: '104426', role: 'Navigation drawer & bottom navigation'),
-    _Member(name: 'Wong Weng Mun', matric: '106728', role: 'Profile/About & share state'),
+    _Member(
+      name: 'Jazzier Joane',
+      matric: '104507',
+      role: 'Student Info & details',
+    ),
+    _Member(
+      name: 'Alan Isam',
+      matric: '103166',
+      role: 'Student record & category/programme',
+    ),
+    _Member(
+      name: 'Isabella Roselinni',
+      matric: '104426',
+      role: 'Navigation drawer & bottom navigation',
+    ),
+    _Member(
+      name: 'Wong Weng Mun',
+      matric: '106728',
+      role: 'Profile/About & share state',
+    ),
   ];
 
   @override
@@ -27,17 +43,17 @@ class AboutPage extends StatelessWidget {
       children: [
         const _ProfileHeader(),
         const SizedBox(height: 12),
-        Center(
-          child: Text('StudentHub', style: textTheme.headlineMedium),
-        ),
-        Center(
-          child: Text('Your Student Portal', style: textTheme.bodyMedium),
-        ),
+        Center(child: Text('StudentHub', style: textTheme.headlineMedium)),
+        Center(child: Text('Your Student Portal', style: textTheme.bodyMedium)),
         const SizedBox(height: 16),
         const _InfoCard(
           title: 'About the app',
           children: [
-            _InfoRow(icon: Icons.info_outline, label: 'Version', value: '1.0.0'),
+            _InfoRow(
+              icon: Icons.info_outline,
+              label: 'Version',
+              value: '1.0.0',
+            ),
             _InfoRow(
               icon: Icons.school_outlined,
               label: 'Course',
@@ -178,11 +194,7 @@ class _InfoRow extends StatelessWidget {
 }
 
 class _Member {
-  const _Member({
-    required this.name,
-    required this.matric,
-    required this.role,
-  });
+  const _Member({required this.name, required this.matric, required this.role});
 
   final String name;
   final String matric;

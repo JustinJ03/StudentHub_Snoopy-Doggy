@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../providers/navigation_provider.dart';
+
+import 'package:student_hub/providers/navigation_provider.dart';
 
 void main() {
   group('NavigationProvider', () {

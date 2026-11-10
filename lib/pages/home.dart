@@ -281,8 +281,7 @@ class HomePage extends ConsumerWidget {
                         child: _QuickActionButton(
                           icon: Icons.list_alt,
                           label: 'View Students',
-                          onTap: () =>
-                              ref.read(navigationProvider).setIndex(1),
+                          onTap: () => ref.read(navigationProvider).setIndex(1),
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -290,8 +289,7 @@ class HomePage extends ConsumerWidget {
                         child: _QuickActionButton(
                           icon: Icons.table_view,
                           label: 'View Records',
-                          onTap: () =>
-                              ref.read(navigationProvider).setIndex(2),
+                          onTap: () => ref.read(navigationProvider).setIndex(2),
                         ),
                       ),
                     ],
