@@ -5,7 +5,7 @@
 // Requirement 8: Profile / About Page
 // =============================================================================
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});
