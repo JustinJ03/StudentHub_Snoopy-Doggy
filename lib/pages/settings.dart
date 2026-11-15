@@ -19,7 +19,6 @@ class SettingsPage extends ConsumerStatefulWidget {
 
 class _SettingsPageState extends ConsumerState<SettingsPage> {
   bool _notificationsEnabled = true;
-  String _defaultProgramme = 'All';
 
   @override
   Widget build(BuildContext context) {
@@ -91,33 +90,22 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 ),
                 const Divider(height: 1),
                 ListTile(
-                  leading: const Icon(Icons.filter_list),
-                  title: const Text('Default Programme Filter'),
-                  subtitle: Text(_defaultProgramme),
-                  trailing: const Icon(Icons.chevron_right),
-                  onTap: () async {
-                    final selected = await showDialog<String>(
-                      context: context,
-                      builder: (context) => SimpleDialog(
-                        title: const Text('Select Default Programme'),
-                        children: [
-                          for (final prog in [
-                            'All',
-                            'Software Engineering',
-                            'Data Engineering',
-                            'Computer Science (Network)',
-                            'Computer Science (Bioinformatics)',
-                          ])
-                            SimpleDialogOption(
-                              onPressed: () => Navigator.pop(context, prog),
-                              child: Text(prog),
-                            ),
-                        ],
+                  leading: Icon(Icons.restore, color: colorScheme.error),
+                  title: Text(
+                    'Reset Preferences',
+                    style: TextStyle(color: colorScheme.error),
+                  ),
+                  subtitle: const Text('Restore default app settings'),
+                  onTap: () {
+                    ref.read(darkModeProvider.notifier).state = false;
+                    setState(() {
+                      _notificationsEnabled = true;
+                    });
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Preferences reset to default'),
                       ),
                     );
-                    if (selected != null) {
-                      setState(() => _defaultProgramme = selected);
-                    }
                   },
                 ),
               ],
