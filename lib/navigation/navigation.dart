@@ -1,16 +1,25 @@
+// ============================================================================
+// File: navigation.dart
+// Description: Navigation Drawer and Material 3 Bottom Navigation Bar.
+// Requirement 6: Navigation Drawer
+// Requirement 7: Bottom Navigation
+// ============================================================================
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers/navigation_provider.dart';
 
-/// Navigation Drawer Widget
+/// Navigation Drawer Widget (Requirement 6)
 class AppNavigationDrawer extends ConsumerWidget {
   const AppNavigationDrawer({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final navState = ref.watch(navigationProvider);
-    final selectedIndex = navState.currentIndex;
+    final selectedIndex = ref.watch(
+      navigationProvider.select((nav) => nav.currentIndex),
+    );
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Drawer(
       child: ListView(
@@ -18,31 +27,38 @@ class AppNavigationDrawer extends ConsumerWidget {
         children: [
           DrawerHeader(
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [colorScheme.primary, colorScheme.tertiary],
+              ),
             ),
-            child: const Column(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Icon(Icons.school, size: 48, color: Colors.white),
-                SizedBox(height: 8),
+                Icon(Icons.school, size: 48, color: colorScheme.onPrimary),
+                const SizedBox(height: 8),
                 Text(
                   'StudentHub',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: colorScheme.onPrimary,
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
-                  'Student Management App',
-                  style: TextStyle(color: Colors.white70),
+                  'Your Student Portal',
+                  style: TextStyle(
+                    color: colorScheme.onPrimary.withValues(alpha: 0.85),
+                  ),
                 ),
               ],
             ),
           ),
           ListTile(
-            leading: const Icon(Icons.home_rounded),
+            leading: const Icon(Icons.home_outlined),
+            selectedTileColor: colorScheme.primaryContainer,
             title: const Text('Home'),
             selected: selectedIndex == 0,
             onTap: () {
@@ -51,7 +67,8 @@ class AppNavigationDrawer extends ConsumerWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.people_alt_rounded),
+            leading: const Icon(Icons.people_outline),
+            selectedTileColor: colorScheme.primaryContainer,
             title: const Text('Student Information'),
             selected: selectedIndex == 1,
             onTap: () {
@@ -60,7 +77,8 @@ class AppNavigationDrawer extends ConsumerWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.table_chart_rounded),
+            leading: const Icon(Icons.table_chart_outlined),
+            selectedTileColor: colorScheme.primaryContainer,
             title: const Text('Student Records'),
             selected: selectedIndex == 2,
             onTap: () {
@@ -69,8 +87,9 @@ class AppNavigationDrawer extends ConsumerWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.category_rounded),
-            title: const Text('Programmes / Categories'),
+            leading: const Icon(Icons.info_outline),
+            selectedTileColor: colorScheme.primaryContainer,
+            title: const Text('About'),
             selected: selectedIndex == 3,
             onTap: () {
               ref.read(navigationProvider.notifier).setIndex(3);
@@ -79,21 +98,33 @@ class AppNavigationDrawer extends ConsumerWidget {
           ),
           const Divider(),
           ListTile(
-            leading: const Icon(Icons.info_outline_rounded),
-            title: const Text('About App'),
-            selected: selectedIndex == 4,
-            onTap: () {
-              ref.read(navigationProvider.notifier).setIndex(4);
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
             leading: const Icon(Icons.settings_outlined),
             title: const Text('Settings'),
-            selected: selectedIndex == 5,
             onTap: () {
-              ref.read(navigationProvider.notifier).setIndex(5);
               Navigator.pop(context);
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Settings'),
+                  content: const Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('App: StudentHub'),
+                      SizedBox(height: 4),
+                      Text('Version: 1.0.0'),
+                      SizedBox(height: 4),
+                      Text('Course: TMA3084 Software Engineering Lab'),
+                    ],
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Close'),
+                    ),
+                  ],
+                ),
+              );
             },
           ),
         ],
@@ -102,43 +133,44 @@ class AppNavigationDrawer extends ConsumerWidget {
   }
 }
 
-/// Bottom Navigation Bar Widget
+/// Bottom Navigation Bar Widget (Requirement 7)
 class AppBottomNavigationBar extends ConsumerWidget {
   const AppBottomNavigationBar({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final navState = ref.watch(navigationProvider);
-    final currentIndex = navState.currentIndex;
+    final currentIndex = ref.watch(
+      navigationProvider.select((nav) => nav.currentIndex),
+    );
 
-    // Safety fallback: prevents crash if user opens About (4) or Settings (5) from drawer
+    // Ensure selectedIndex stays within the 4 bottom bar destinations (0..3)
     final barIndex = currentIndex < 4 ? currentIndex : 0;
 
     return NavigationBar(
       selectedIndex: barIndex,
-      onDestinationSelected: (int index) {
+      onDestinationSelected: (index) {
         ref.read(navigationProvider.notifier).setIndex(index);
       },
       destinations: const [
         NavigationDestination(
           icon: Icon(Icons.home_outlined),
-          selectedIcon: Icon(Icons.home_rounded),
+          selectedIcon: Icon(Icons.home),
           label: 'Home',
         ),
         NavigationDestination(
-          icon: Icon(Icons.people_outline_rounded),
-          selectedIcon: Icon(Icons.people_alt_rounded),
+          icon: Icon(Icons.people_outline),
+          selectedIcon: Icon(Icons.people),
           label: 'Students',
         ),
         NavigationDestination(
           icon: Icon(Icons.table_chart_outlined),
-          selectedIcon: Icon(Icons.table_chart_rounded),
+          selectedIcon: Icon(Icons.table_chart),
           label: 'Records',
         ),
         NavigationDestination(
-          icon: Icon(Icons.category_outlined),
-          selectedIcon: Icon(Icons.category_rounded),
-          label: 'Programmes',
+          icon: Icon(Icons.info_outline),
+          selectedIcon: Icon(Icons.info),
+          label: 'About',
         ),
       ],
     );
