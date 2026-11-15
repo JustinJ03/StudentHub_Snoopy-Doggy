@@ -13,6 +13,7 @@ import 'pages/home.dart';
 import 'pages/stud_list.dart';
 import 'pages/stud_record.dart';
 import 'pages/about_profile.dart';
+import 'pages/settings.dart';
 import 'navigation/navigation.dart';
 
 void main() {
@@ -23,18 +24,29 @@ void main() {
   );
 }
 
-class StudentHubApp extends StatelessWidget {
+class StudentHubApp extends ConsumerWidget {
   const StudentHubApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(darkModeProvider);
+
     return MaterialApp(
       title: 'StudentHub',
       debugShowCheckedModeBanner: false,
+      themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF1565C0), // Deep Blue
           brightness: Brightness.light,
+        ),
+        useMaterial3: true,
+        fontFamily: 'Roboto',
+      ),
+      darkTheme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF1565C0), // Deep Blue
+          brightness: Brightness.dark,
         ),
         useMaterial3: true,
         fontFamily: 'Roboto',

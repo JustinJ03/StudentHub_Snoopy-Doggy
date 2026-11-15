@@ -5,17 +5,11 @@
 // Requirement 7: Bottom Navigation
 // ============================================================================
 
-<<<<<<< HEAD
-import 'package:flutter/material.dart';
-=======
-// ignore_for_file: unused_import
-// remove this when your code has been implemented
-
 import 'package:material_ui/material_ui.dart';
->>>>>>> a47d380cadd8cd4760c2bec0f10018d87abb16a3
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers/navigation_provider.dart';
+import '../pages/settings.dart';
 
 /// Navigation Drawer Widget (Requirement 6)
 class AppNavigationDrawer extends ConsumerWidget {
@@ -109,28 +103,9 @@ class AppNavigationDrawer extends ConsumerWidget {
             title: const Text('Settings'),
             onTap: () {
               Navigator.pop(context);
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text('Settings'),
-                  content: const Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('App: StudentHub'),
-                      SizedBox(height: 4),
-                      Text('Version: 1.0.0'),
-                      SizedBox(height: 4),
-                      Text('Course: TMA3084 Software Engineering Lab'),
-                    ],
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text('Close'),
-                    ),
-                  ],
-                ),
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SettingsPage()),
               );
             },
           ),
@@ -150,7 +125,6 @@ class AppBottomNavigationBar extends ConsumerWidget {
       navigationProvider.select((nav) => nav.currentIndex),
     );
 
-    // Ensure selectedIndex stays within the 4 bottom bar destinations (0..3)
     final barIndex = currentIndex < 4 ? currentIndex : 0;
 
     return NavigationBar(
