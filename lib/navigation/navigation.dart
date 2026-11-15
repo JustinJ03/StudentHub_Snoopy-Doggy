@@ -5,7 +5,14 @@
 // Requirement 7: Bottom Navigation
 // ============================================================================
 
+<<<<<<< HEAD
 import 'package:flutter/material.dart';
+=======
+// ignore_for_file: unused_import
+// remove this when your code has been implemented
+
+import 'package:material_ui/material_ui.dart';
+>>>>>>> a47d380cadd8cd4760c2bec0f10018d87abb16a3
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers/navigation_provider.dart';
