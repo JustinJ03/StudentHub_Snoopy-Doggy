@@ -16,7 +16,7 @@ class NavigationProvider extends ChangeNotifier {
     : assert(initialIndex >= 0 && initialIndex < destinationCount),
       _currentIndex = initialIndex;
 
-  static const int destinationCount = 4;
+  static const int destinationCount = 6;
 
   int _currentIndex;
   int get currentIndex => _currentIndex;
